@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pokemonlist</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Pokemon</h1>
+    <table>
+		<tr>
+		    <th>Name</th>
+		    <th>Type</th>
+		    <th>Region</th>
+		    <th>Trainer</th>
+		    <th>Team</th>
+		</tr>  
+    	<tr th:each = "pokemon : ${pokemonit}">
+    		<td th:text="${pokemon.name}"></td>
+    		<td th:text="${pokemon.type}"></td>
+    		<td th:text="${pokemon.region}"></td>
+    		<td th:text="${pokemon.trainer.name}"></td> 
+    		<td th:text="${pokemon.trainer.team}"></td> 		
+ 			<td><a th:href="@{/delete/{id}(id=${pokemon.id})}">Delete</a></td>    		
+    	</tr>
+     </table>
+	 <a href="/add">Add Pokemon</a>  	
+</body>
+</html>
