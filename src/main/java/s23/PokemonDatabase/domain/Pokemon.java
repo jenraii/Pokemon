@@ -21,10 +21,12 @@ public class Pokemon {
     @Size(min = 3, max = 250)
 	private String name;
 	
-	@Pattern(regexp = "Normal|Fire|Water|Grass|Flying|Fighting|Poison|Electric|Ground|Rock|Psychic|Ice|Bug|Ghost|Steel|Dragon|Dark|Fairy", message = "Type must be one of the 18 existing ones", flags = Pattern.Flag.CASE_INSENSITIVE)
+	@Pattern(regexp = "Normal|Fire|Water|Grass|Flying|Fighting|Poison|Electric|Ground|Rock|Psychic|Ice|Bug|Ghost|Steel|Dragon|Dark|Fairy", 
+	message = "Type must be one of the 18 existing ones", flags = Pattern.Flag.CASE_INSENSITIVE)
 	private String type;
 	
-	@Pattern(regexp = "Kanto|Johto|Hoenn|Sinnoh|Unova|Kalos|Alola|Galar|Paldea", message = "Region must be one of the 8 existing ones", flags = Pattern.Flag.CASE_INSENSITIVE)
+	@Pattern(regexp = "Kanto|Johto|Hoenn|Sinnoh|Unova|Kalos|Alola|Galar|Paldea", message = "Region must be one of the 8 existing ones", 
+	flags = Pattern.Flag.CASE_INSENSITIVE)
 	private String region;
 
 	@ManyToOne (fetch = FetchType.EAGER)
