@@ -41,6 +41,13 @@ public class PokemonDatabaseRepositoryTests {
 		List<Pokemon> pokemon = prepository.findByTrainerName("Jenrai");
 		assertThat(pokemon).hasSize(1);		
 	}
+
+	@Test
+	public void findByTypeName() {
+		List<Pokemon> pokemon = prepository.findByType("Normal");
+		assertThat(pokemon.get(0).getType().equalsIgnoreCase("normal"));
+		
+	}
     
     // Kommentoin tämän pois, koska AssertNotEquals ei jostakin syystä toimi.
    /* @Test
