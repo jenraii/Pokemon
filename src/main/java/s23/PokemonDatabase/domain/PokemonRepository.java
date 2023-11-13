@@ -9,5 +9,6 @@ public interface PokemonRepository extends CrudRepository <Pokemon, Long> {
 	
 	 List<Pokemon> findByName(String name);
 	 List<Pokemon> findByTrainerName(String string);
+	 List<Pokemon> findByType (String string);
 	 
 }
