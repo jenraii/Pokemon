@@ -1,12 +1,31 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/}]]";
+    }
+</script>
+
 <head>
     <title>Pokemonlist</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+
 <body>
-	<h1>Pokemon</h1>
-    <table>
+	<p align="right">User: <b sec:authentication="name"></b>, 
+        Role: <b sec:authentication="principal.authorities"></b></p>
+
+	<table class="table table-striped">
+
+	<tr>
+		<h1>Pokemon</h1>
+		
+    	<table class="table table-striped">
 		<tr>
 		    <th>Name</th>
 		    <th>Type</th>
@@ -14,15 +33,24 @@
 		    <th>Trainer</th>
 		    <th>Team</th>
 		</tr>  
-    	<tr th:each = "pokemon : ${pokemonit}">
+    	<tr th:each = "pokemon : ${pokemon}">
     		<td th:text="${pokemon.name}"></td>
     		<td th:text="${pokemon.type}"></td>
     		<td th:text="${pokemon.region}"></td>
-    		<td th:text="${pokemon.trainer.name}"></td> 
-    		<td th:text="${pokemon.trainer.team}"></td> 		
- 			<td><a th:href="@{/delete/{id}(id=${pokemon.id})}">Delete</a></td>    		
+    		<td th:text="${pokemon.trainer != null ? pokemon.trainer.name : ''}"></td>	
+    		<td th:text="${pokemon.trainer != null ? pokemon.trainer.team : ''}"></td>	
+ 			<!--<td th:text="${pokemon?.team?.name} ? ''"></td>'-->
+			<td><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/editpokemon/{id}(id=${pokemon.id})}" >Edit</a></td>
+			<td><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/delete/{id}(id=${pokemon.id})}" class="btn btn-danger">Delete</a>
+			</td>    		
     	</tr>
      </table>
-	 <a href="/add">Add Pokemon</a>  	
+	<br>
+	<a sec:authorize="hasAuthority('ADMIN')" href="/addpokemon" class="btn btn-success">Add Pokemon</a>
+	<br>
+	<br>
+	<a href="/trainerlist">Go to trainer listing</a><br><br><br>
+     <a href="/logout"><i>Log out</i></a>
+ 	
 </body>
 </html>

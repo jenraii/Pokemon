@@ -1,24 +1,38 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
+	
+<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
 <head>
-    <title>Pokemonlist</title>
+    <title>New trainer</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<h1>Add trainer</h1>
+	
+		<p align="right">User: <b sec:authentication="name"></b>, 
+        role = <b sec:authentication="principal.authorities"></b></p>
 	<div>
-		<form th:object="${trainer}" th:action="@{save}" action="#" method="post">
-		  	<label for="name">Name</label>
-			<input type="text" id="name" th:field="*{name}" />
-			<div style="clear: both; display: block; height: 10px;"></div>
-		  	<label for="trainerlist">Team</label>
-			<select id="trainerlist" th:field="*{trainer}" class="form-control">
-       			<option th:each="trainer: ${trainers}" th:value="${trainer.trainerid}" th:text="${trainer.team}"></option>
-    		</select>
-			
-			<div style="clear: both; display: block; height: 10px;"></div>
+	<h1>New trainer information</h1>
+	<form action="#" th:object="${newtrainer}" th:action="@{saveTrainer}" method="post">
+		<table>
+			<tr>
+				<td>Name: <input type="text" th:field="*{name}" /></td>
+				<td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</td>				
+			</tr>
+			<tr>
+				<td>Team: <input type="text" th:field="*{team}" /></td>
+			</tr>
+				
+		</table>
+		
+		<p th:if="${#fields.hasErrors('team')}">Invalid team name: Team name must be Instinct, Valor or Mystique</p>
+		
 			<input type="submit" value="Save"></input>
 		</form>
+	
 	</div>
+
 </body>
 </html>

@@ -1,28 +1,31 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
 
 <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 
 <head>
-    <title>Pokemonlist</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Edit pokemon</title>
 </head>
+
 <body>
-	<h1>Add pokemon</h1>
+	<h1>Edit pokemon</h1>
 	<div>
-		<form th:object="${pokemon}" th:action="@{savePokemon}" action="#" method="post">
-		  	<label>Name</label>
-			<input type="text" id="name" th:field="*{name}" />
-		  	<label>Type</label>
-			<input type="text" id="type" th:field="*{type}" />
-		  	<label>Region</label>
+		<form th:object="${editpokemon}" th:action="@{/savePokemon}" action="#" method="post">
+			<input type="hidden" th:field="*{id}" />
+			<label>Name</label>
+			<input type="text" th:field="*{name}" />
+			<label>Type</label>
+			<input type="text" th:field="*{type}" />
+			<label>Region</label>
 			<input type="text" th:field="*{region}" />
 			<label>Trainer</label>
 			<select id="trainers" th:field="*{trainer}">
        			<option th:each="trainer: ${trainers}" th:value="${trainer.trainerid}" th:text="${trainer.name} + ' ' + ${trainer.team}"></option>
-    		</select>
+    		</select>	
     		
     		<p th:if="${#fields.hasErrors('type')}">Invalid type - Type must be one of the 18 existing ones:<br>
     		Normal<br>
@@ -53,10 +56,10 @@
 			Alola<br>
 			Galar<br>
 			Paldea</p>
-		
+			
 			<input type="submit" value="Save"></input>
 		</form>
-	
+		
 	</div>
 </body>
 </html>

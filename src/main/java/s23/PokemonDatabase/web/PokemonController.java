@@ -1,68 +1,90 @@
 package s23.PokemonDatabase.web;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.validation.Valid;
 import s23.PokemonDatabase.domain.TrainerRepository;
 import s23.PokemonDatabase.domain.Pokemon;
 import s23.PokemonDatabase.domain.PokemonRepository;
-import s23.PokemonDatabase.domain.Trainer;
+
 
 @Controller
 public class PokemonController {
+	private static final Logger log = LoggerFactory.getLogger(PokemonController.class);
 	
-	@Autowired
-	private PokemonRepository repository; 
+	private final PokemonRepository prepository; 
 
-	@Autowired
-	private TrainerRepository trepository; 
+	private final TrainerRepository trepository; 
+	
+	public PokemonController(PokemonRepository prepository, TrainerRepository trepository) {
+		this.prepository = prepository;
+		this.trepository = trepository;
+	}
+	
+	// Login page -> pokemonlist
+		@RequestMapping(value = { "login" })
+		public String login(Model model) {
+			return "redirect:pokemonlist";
+		}
 	
 	// Show all pokemon
-    @RequestMapping(value="/pokemonlist")
-    public String pokemonList(Model model) {	
-        model.addAttribute("pokemonit", repository.findAll());
+    @GetMapping("/pokemonlist")
+    public String pokemonList(Model model, String keyword) {
+    	log.info("Read pokemon from database...");
+        model.addAttribute("pokemon", prepository.findAll());
         return "pokemonlist";
-    }
-  
-	// RESTful service to get all pokemon
-    @RequestMapping(value="/pokemonit", method = RequestMethod.GET)
-    public @ResponseBody List<Pokemon> pokemonListRest() {	
-        return (List<Pokemon>) repository.findAll();
-    }    
+    }  
 
-	// RESTful service to get pokemon by id
-    @RequestMapping(value="/pokemon/{id}", method = RequestMethod.GET)
-    public @ResponseBody Optional<Pokemon> findPokemonRest(@PathVariable("id") Long pokemonId) {	
-    	return repository.findById(pokemonId);
-    }       
+	// Add new pokemon (admin)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping("/addpokemon")
+	public String addPokemon(Model model) {
+		log.info("Let's create a new pokemon...");
+		model.addAttribute("pokemon", new Pokemon());
+		model.addAttribute("trainers", trepository.findAll());
+		return "addpokemon";
+	}
+	
+	//Edit pokemon (admin)
+    @PreAuthorize("hasAuthority('ADMIN')")
+	@GetMapping("editpokemon/{id}")
+	public String editPokemon(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("editpokemon", prepository.findById(id));
+		model.addAttribute("trainers", trepository.findAll());
+		return "editpokemon";
+	}  
     
-    // Add new pokemon
-    @RequestMapping(value = "/add")
-    public String addPokemon(Model model){
-    	model.addAttribute("pokemon", new Pokemon());
-    	model.addAttribute("trainers", trepository.findAll());
-        return "addpokemon";
-    }     
-    
-    // Save new pokemon
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(Pokemon pokemon){
-        repository.save(pokemon);
+    // Save new pokemon (admin)
+	@PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/savePokemon")
+    public String savePokemon(@Valid @ModelAttribute("pokemon") Pokemon pokemon, BindingResult bindingResult, Model model){
+    	log.info("CONTROLLER: Save pokemon and check the validation: " + pokemon);
+    	if (bindingResult.hasErrors()) {
+			log.info("validation error happened, trainers: " + trepository.findAll());
+			model.addAttribute("trainers", trepository.findAll());
+			return "addpokemon";
+		}
+    	prepository.save(pokemon);
         return "redirect:pokemonlist";
     }    
 
-    // Delete pokemon
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deletePokemon(@PathVariable("id") Long pokemonId, Model model) {
-    	repository.deleteById(pokemonId);
+    // Delete pokemon (admin)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(value = "/delete/{id}")
+    public String deletePokemon(@PathVariable("id") Long id, Model model) {
+    	log.info("delete pokemon");
+    	prepository.deleteById(id);
         return "redirect:../pokemonlist";
-    }     
+    }   
+    
 }

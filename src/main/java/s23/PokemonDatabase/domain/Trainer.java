@@ -2,47 +2,54 @@ package s23.PokemonDatabase.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class Trainer {
+	
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long trainerid;
-	private String name, team;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	public Long trainerid;
+    
+	private String name;
 	
-	@JsonIgnore
+	@Pattern(regexp = "Instinct|Valor|Mystique", message = "Team name must be either Instinct, Valor or Mystique", flags = Pattern.Flag.CASE_INSENSITIVE)
+	private String team;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "trainer")
-	private List<Pokemon> pokemonit;
+	@JsonIgnore
+	private List<Pokemon> pokemon;
 	
-	public Trainer() {}
-	
-	public Trainer(String name) {
+	public Trainer() {
 		super();
-		this.name = name;
 	}
-
+	
 	public Trainer(String name, String team) {
 		super();
 		this.name = name;
 		this.team = team;
 	}
 	
-	public Long getTrainerid() {
+	public Trainer(String name, String team, List<Pokemon> pokemon) {
+		super();
+		this.name = name;
+		this.team = team;
+		this.pokemon = pokemon;
+	}
+
+	public Long getTrainerId() {
 		return trainerid;
 	}
 	
-	public void setTrainerid(Long trainerid) {
+	public void setTrainerId(Long trainerid) {
 		this.trainerid = trainerid;
 	}
 	
@@ -54,6 +61,7 @@ public class Trainer {
 		this.name = name;
 	}
 
+
 	public String getTeam() {
 		return team;
 	}
@@ -63,11 +71,11 @@ public class Trainer {
 	}
 
 	public List<Pokemon> getPokemon() {
-		return pokemonit;
+		return pokemon;
 	}
 
-	public void setPokemon(List<Pokemon> pokemonit) {
-		this.pokemonit = pokemonit;
+	public void setPokemon(List<Pokemon> pokemon) {
+		this.pokemon = pokemon;
 	}
 
 	@Override
