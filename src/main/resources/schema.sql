@@ -47,6 +47,6 @@ VALUES ('Cyndaquil', 'Fire', 'Johto', 3);
 INSERT INTO app_user (username, password, role)
 VALUES ('admin', '$2b$10$o0liCdP9lzTgCHarj9JCdeoyWICDjRpQCYS4TP97jSnRc5tlriKPS', 'ADMIN');
 INSERT INTO app_user (username, password, role)
-VALUES ('user', '$2b$10$o0liCdP9lzTgCHarj9JCdeoyWICDjRpQCYS4TP97jSnRc5tlriKPS', 'USER');
+VALUES ('user', '$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6', 'USER');
 
 
