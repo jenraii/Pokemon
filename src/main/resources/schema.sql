@@ -23,8 +23,6 @@ CREATE TABLE pokemon
 CREATE TABLE app_user
 (
     id        INT AUTO_INCREMENT PRIMARY KEY,
-    firstname VARCHAR(255) NOT NULL,
-    lastname  VARCHAR(255) NOT NULL,
     username  VARCHAR(255) NOT NULL,
     password  VARCHAR(255) NOT NULL,
     role      VARCHAR(255) NOT NULL
@@ -46,9 +44,9 @@ VALUES ('Mudkip', 'Water', 'Hoenn', 2);
 INSERT INTO pokemon (name, type, region, id)
 VALUES ('Cyndaquil', 'Fire', 'Johto', 3);
 
-INSERT INTO app_user (firstname, lastname, username, password, role)
-VALUES ('Jenna', 'Räihä', 'admin', '$2b$10$o0liCdP9lzTgCHarj9JCdeoyWICDjRpQCYS4TP97jSnRc5tlriKPS', 'ADMIN');
-INSERT INTO app_user (firstname, lastname, username, password, role)
-VALUES ('Janne', 'Autio', 'admin2', '$2b$10$o0liCdP9lzTgCHarj9JCdeoyWICDjRpQCYS4TP97jSnRc5tlriKPS', 'ADMIN');
+INSERT INTO app_user (username, password, role)
+VALUES ('admin', '$2b$10$o0liCdP9lzTgCHarj9JCdeoyWICDjRpQCYS4TP97jSnRc5tlriKPS', 'ADMIN');
+INSERT INTO app_user (username, password, role)
+VALUES ('user', '$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6', 'USER');
 
 
