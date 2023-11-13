@@ -5,11 +5,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-    function clearSearch() {
-        window.location = "[[@{/}]]";
-    }
-</script>
 
 <head>
     <title>Pokemonlist</title>
@@ -49,8 +44,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 	<a sec:authorize="hasAuthority('ADMIN')" href="/addpokemon" class="btn btn-success">Add Pokemon</a>
 	<br>
 	<br>
-	<a href="/trainerlist">Go to trainer listing</a><br><br><br>
-     <a href="/logout"><i>Log out</i></a>
+	<a href="/trainerlist">Go to trainer listing</a>
+	<br><br>
+    <a href="/logout"><i>Log out</i></a>
  	
 </body>
 </html>

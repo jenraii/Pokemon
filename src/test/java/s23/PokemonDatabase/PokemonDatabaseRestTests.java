@@ -2,11 +2,13 @@ package s23.PokemonDatabase;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -30,11 +32,19 @@ public class PokemonDatabaseRestTests {
 	public void apiStatusOk() throws Exception {
 		mockMvc.perform(get("/api/pokemon")).andExpect(status().isOk());
 	}
+
+	@Test
+	public void responseTypeApplicationJson() throws Exception {
+		mockMvc.perform(get("/api/pokemon"))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+
 	
 	@Test
-    public void shouldReturnAllPokemon() throws Exception {
+    public void shouldReturnThreeTestPokemon() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/pokemon"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(8));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3));
     }
 }
