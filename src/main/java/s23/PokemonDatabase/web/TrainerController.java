@@ -38,7 +38,7 @@ public class TrainerController {
 	@GetMapping("/addtrainer")
 	public String addTrainer(Model model) {
 		model.addAttribute("newtrainer", new Trainer());
-		return "trainer/addtrainer";
+		return "/addtrainer";
 	}
 
 	@PostMapping("/saveTrainer")
