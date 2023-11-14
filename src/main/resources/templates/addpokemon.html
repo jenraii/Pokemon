@@ -10,8 +10,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+<div style="margin:15px">
 	<h1>Add pokemon</h1>
-	<div>
 		<form th:object="${pokemon}" th:action="@{savePokemon}" action="#" method="post">
 		  	<label>Name</label>
 			<input type="text" id="name" th:field="*{name}" />
