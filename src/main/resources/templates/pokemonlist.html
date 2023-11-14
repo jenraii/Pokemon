@@ -12,16 +12,39 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 </head>
 
 <body>
-	
-<p align="right">User: <b sec:authentication="name"></b>, 
-Role: <b sec:authentication="principal.authorities"></b></p>
-	
+	<p align="right">User: <b sec:authentication="name"></b>, 
+        Role: <b sec:authentication="principal.authorities"></b></p>
 <div style="margin:15px">
-<table class="table table-striped">
+	<table class="table table-striped">
 
 	<tr>
 		<h1>Pokemon</h1>
 		
+		<form th:object="${pokemon}" th:action="@{/pokemon}" method="get">
+        <input type="text" name="search" id="search"/>
+        <input type="submit" class="btn btn-primary" value="Search"/>
+        <a href="/pokemonlist" class="btn btn-primary">Clear</a>
+        <div th:if="${not #lists.isEmpty(search)}">
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Region</th>
+                    <th>Trainer</th>
+		    		<th>Team</th>
+                </tr>
+                <tr th:each="pokemon: ${search}">
+                    <td th:text="${pokemon.name}"></td>
+                    <td th:text="${pokemon.type}"></td>
+    				<td th:text="${pokemon.region}"></td>
+    				<td th:text="${pokemon.trainer != null ? pokemon.trainer.name : ''}"></td>	
+    				<td th:text="${pokemon.trainer != null ? pokemon.trainer.team : ''}"></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    
+	<div style="margin:15px">
     	<table class="table table-striped">
 		<tr>
 		    <th>Name</th>
@@ -44,11 +67,10 @@ Role: <b sec:authentication="principal.authorities"></b></p>
      </table>
 	<br>
 	<a sec:authorize="hasAuthority('ADMIN')" href="/addpokemon" class="btn btn-success">Add Pokemon</a>
-	<br>
-	<br>
+	<br><br>
 	<a href="/trainerlist">Go to trainer listing</a>
 	<br><br>
     <a href="/logout"><i>Log out</i></a>
-</div>
+ 	</div>
 </body>
 </html>
