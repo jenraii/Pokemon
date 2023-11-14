@@ -24,7 +24,7 @@ role = <b sec:authentication="principal.authorities"></b></p>
     	<tr th:each = "trainer : ${trainers}">
     		<td th:text="${trainer.name}"></td>
     		<td th:text="${trainer.team}"></td>
-    		<td><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/deletetrainer/{id}(id=${trainer.trainerid})}">Delete</a></td>
+    		<td><a sec:authorize="hasAuthority('ADMIN')" th:href="@{/deletetrainer/{id}(id=${trainer.trainerid})}" class="btn btn-danger">Delete</a></td>
     	</tr>
      </table>
      <a sec:authorize="hasAuthority('ADMIN')" href="/addtrainer" class="btn btn-success">Add new trainer</a>
