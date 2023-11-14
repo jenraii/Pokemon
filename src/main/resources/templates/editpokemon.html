@@ -10,10 +10,10 @@ xmlns:th="http://www.thymeleaf.org">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Edit pokemon</title>
 </head>
-
 <body>
+<div style="margin:15px">
 	<h1>Edit pokemon</h1>
-	<div>
+	
 		<form th:object="${editpokemon}" th:action="@{/savePokemon}" action="#" method="post">
 			<input type="hidden" th:field="*{id}" />
 			<label>Name</label>
