@@ -30,6 +30,19 @@ public class PokemonController {
 		this.prepository = prepository;
 		this.trepository = trepository;
 	}
+
+	private PokemonService pokemonService;
+	 
+	 @Autowired
+	 public void setPokemonService(PokemonService pokemonService) {
+		 this.pokemonService = pokemonService;
+	 }
+	 
+	 @GetMapping(value = "pokemon")
+	    public String showPokemonByKeyword(@RequestParam (value = "search", required = false) String keyword, Model model) {
+	        model.addAttribute("search", pokemonService.listByKeyword(keyword));
+	        return "pokemonlist";
+	    }
 	
 	// Login page -> pokemonlist
 		@RequestMapping(value = { "login" })
