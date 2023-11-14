@@ -11,9 +11,10 @@
 </head>
 <body>
 	
-		<p align="right">User: <b sec:authentication="name"></b>, 
-        role = <b sec:authentication="principal.authorities"></b></p>
-	<div>
+<p align="right">User: <b sec:authentication="name"></b>, 
+role = <b sec:authentication="principal.authorities"></b></p>
+	
+<div style="margin:15px">
 	<h1>New trainer information</h1>
 	<form action="#" th:object="${newtrainer}" th:action="@{saveTrainer}" method="post">
 		<table>
